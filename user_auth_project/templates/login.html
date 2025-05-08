@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login</title>
+  
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+
+</head>
+<body>
+  <h2>Login</h2>
+  <input type="email" id="email" placeholder="Email" />
+  <input type="password" id="password" placeholder="Password" />
+  <button onclick="login()">Login</button>
+
+  <form id="tokenForm" method="POST" action="/verify">
+    <input type="hidden" name="idToken" id="idToken">
+  </form>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "",
+      authDomain: "",
+      projectId: "",
+    };
+    firebase.initializeApp(firebaseConfig);
+
+    function login() {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+
+      firebase.auth().signInWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+          return userCredential.user.getIdToken();
+        })
+        .then((idToken) => {
+          document.getElementById('idToken').value = idToken;
+          document.getElementById('tokenForm').submit();
+        })
+        .catch((error) => {
+          alert("Login failed: " + error.message);
+        });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+runtime: python310
+entrypoint: gunicorn -b :$PORT main:app
+
+instance_class: F1
+
+env_variables:
+  GOOGLE_CLOUD_PROJECT: "your-project-id"
